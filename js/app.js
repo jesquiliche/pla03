@@ -3,15 +3,13 @@
 const form = document.getElementById("formulario");
 const nif = document.getElementById("nif");
 let nombre=document.getElementById("nombre");
-console.log(nombre);
+console.log(nombre.value);
 let nifError = document.getElementById("nifError");
 let nombreError=document.getElementById("nombreError");
 let nombreError2=document.getElementById("nombreError2");
 let direccion=document.getElementById("direccion");
 let dirError=document.getElementById("dirError");
-console.log(nombreError)
-console.log(direccion)
-console.log("emtro en APP")
+
 const formBajaPersonas = document.getElementById("formularioBaja");
 
 //Validación de formulario
@@ -26,8 +24,7 @@ form.addEventListener("submit", function (evt) {
         form.submit();
 
     } else {
-        alert("Su formulario contiene datos incorrectos.")
-        
+          
         return false;
     }
 });
@@ -46,7 +43,7 @@ formBajaPersonas.addEventListener("submit", function (evt) {
 
 function validateName(nombre,divError){
     var expresion=/^[a-zA-ZÀ-ÿ-09\s]{1,40}$/ // Letras y espacios, pueden llevar acentos.
-    alert(nombre)
+    
     if((nombre!==undefined && nombre!="" && expresion.test(nombre)) ){
         divError.innerHTML="";
         
@@ -54,7 +51,7 @@ function validateName(nombre,divError){
         return true;
     }
     else {
-        alert("Entro");
+    
         divError.innerHTML = "<i class='fa fa-times-circle px-2' style='color: red' ></i> El nombre suele puede contener letras y espacios";  
         return false;
     }

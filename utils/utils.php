@@ -52,3 +52,26 @@ function isNumber($value, $minValue, $maxValue)
     else
         echo null;
 }
+
+//Muestre un Array de errores en un DIV dentro del formulario
+function showErrors($errores)
+{
+
+	try {
+        // Solo dibujar el Div si existen errores
+		if (count($errores) > 0) {
+			echo "<div class='card col-lg-10 mx-auto py-3'>";
+			echo "<div class='card-title mx-auto'>";
+			echo "<b><b>Errores de validación</b>";
+			echo "</div>";
+			for ($x = 0; $x < count($errores); $x++) {
+				echo "<div>";
+				echo "<i class='fa fa-times-circle px-2' style='color: red' ></i> " . $errores[$x] . "<br>";
+				echo "<div>";
+			}
+			echo "<div>";
+		}
+	} catch (Exception $e) {
+		echo $e->getMessage();
+	}
+}

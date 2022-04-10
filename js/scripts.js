@@ -35,8 +35,6 @@ function traslladarDades() {
 	var nom = tr.querySelector('.nombre').value // O-Ren Ishii
 	
 	//trasladar los datos al formulario oculto
-	alert(nif);
-	alert(nom);
 	document.querySelector('[name=nifModi]').value = nif
 	
 	//submit del formulario
