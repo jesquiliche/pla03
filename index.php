@@ -7,6 +7,13 @@ require_once "./utils/utils.php";
 
 session_start();
 const CLAVE = "espingorcio";
+if(isset($_SESION["errores"])){
+	$lstErrores=$_SESION["errores"];
+	
+} else{ 
+	$lstErrores=array();
+}
+
 $lstPersonas = array();
 $lstPersonas = $_SESSION["newsession"];
 //$lstErrores = $_SESSION["errores"];
@@ -18,17 +25,11 @@ $mensaje="";
 $nif = "";
 $nombre = "";
 $direccion = "";
-$includeJs=false;
+$includeJs=true;
 
 if (isset($_POST["nif"])) $nif = $_POST["nif"];
 if (isset($_POST["nombre"])) $nombre = $_POST["nombre"];
 if (isset($_POST["direccion"])) $direccion = $_POST["direccion"];
-
-
-
-
-
-
 
 
 if (isset($_POST["darAlta"])) {
@@ -50,7 +51,6 @@ function alta(&$lstPersonas, &$lstErrores)
 		$nif = trim($_POST["nif"]);
 		$nombre = trim($_POST["nombre"]);
 		$direccion = trim($_POST["direccion"]);
-
 
 		//Validación de campos
 		if (!validateDNI($nif)) {
@@ -77,19 +77,19 @@ function alta(&$lstPersonas, &$lstErrores)
 
 			reseteaControles();
 			$mensaje = "Alta efectuada";
+		// si no existe la clave procede con el alta
 		} elseif (!array_key_exists($nif, $lstPersonas)) {
-
 			$p =	array(
 				"nif" => $nif,
 				"nombre" => $_POST["nombre"],
 				"direccion" => $_POST["direccion"]
 			);
 			$lstPersonas[$_POST["nif"]] = $p;
-
 			//Guardar datos
 			$_SESSION["newsession"] = $lstPersonas;
 			global $mensaje;
-			reseteaControles();			$mensaje = "Alta efectuada";
+			reseteaControles();			
+			$mensaje = "Alta efectuada";
 
 			//Existe el nif ya en la lista
 		} elseif (array_key_exists($nif, $lstPersonas)) {
@@ -101,7 +101,6 @@ function alta(&$lstPersonas, &$lstErrores)
 	} catch (Exception $e) {
 		array_push($lstErrores, $e->getMessage());
 		$_SESSION["errores"] = $lstErrores;
-		
 	}
 }
 
@@ -129,6 +128,7 @@ function borrarTodos(&$lstPersonas, &$lstErrores)
 	}
 }
 
+//Limpia los controles del formulario
 function reseteaControles()
 {
 	global $nombre;
@@ -188,7 +188,9 @@ function reseteaControles()
 			<button type="submit" class="btn btn-success" name='alta'>Alta persona</button>
 			<span><?= $mensaje ?></span>
 			<span></span>
+			<?php showErrors($lstErrores); ?>
 		</form><br>
+		
 
 		<table class="table table-hover">
 			<tr>
@@ -247,8 +249,8 @@ function reseteaControles()
 			<input type='hidden' name='modificar'>
 		</form>
 		<?php
-		//var_dump($_SESSION("errores"));
-		showErrors($lstErrores);
+		
+	
 		?>
 	</div>
 </main>
